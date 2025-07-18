@@ -138,11 +138,11 @@ static uint8_t a_as608_uart_write(as608_handle_t *handle, uint32_t addr, uint8_t
     
     if (handle->uart_flush() != 0)                          /* uart flush */
     {
-        return 1;                                           /* return error */
+        return 11;                                           /* return error */
     }
     if (handle->uart_write(handle->buf, l + 2) != 0)        /* write data */
     {
-        return 1;                                           /* return error */
+        return 12;                                           /* return error */
     }
     
     return 0;                                               /* success return 0 */
@@ -526,7 +526,7 @@ uint8_t as608_init(as608_handle_t *handle, uint32_t addr)
     res = a_as608_uart_write(handle, addr, AS608_TYPE_COMMAND, buf, 1);        /* write data */
     if (res != 0)                                                              /* check result */
     {
-        handle->debug_print("as608: uart write failed.\n");                    /* uart write failed */
+        handle->debug_print("as608: uart write failed = %d.\n", res);                    /* uart write failed */
         (void)handle->uart_deinit();                                           /* uart deinit */
         
         return 4;                                                              /* return error */
